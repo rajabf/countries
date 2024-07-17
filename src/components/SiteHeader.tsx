@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { CountryObj } from "./countryObj";
 
 const SiteHeader = () => {
   const [searchedCountry, setSearchedCountry] = useState<CountryObj[]>([]);
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
-  const handleSubmit = (e: React.FormEvent<HTMLElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const searchQuery = e.currentTarget.search.value;
+    const searchQuery = searchInputRef.current?.value || "";
 
     if (searchQuery.trim() === "") {
       return;
@@ -29,6 +30,7 @@ const SiteHeader = () => {
             type="text"
             name="search"
             placeholder="Search for a country"
+            ref={searchInputRef}
           />
           <button type="submit">ok</button>
         </form>
